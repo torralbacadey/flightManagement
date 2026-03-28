@@ -1,0 +1,79 @@
+[
+  {
+    "flightdestination": "Manila",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+  {
+    "flightdestination": "Tokyo",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+  {
+    "flightdestination": "Bangkok",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+  {
+    "flightdestination": "Bali",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+  {
+    "flightdestination": "Hongkong",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+
+  {
+    "flightdestination": "Seoul",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+  {
+    "flightdestination": "Kuala Lumpur",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+  {
+    "flightdestination": "Sydney",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+  {
+    "flightdestination": "New Delhi",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+  {
+    "flightdestination": "Singapore",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+
+  {
+    "flightdestination": "Manila",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+  {
+    "flightdestination": "Seoul",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+  {
+    "flightdestination": "Hongkong",
+    "time": "2:00 PM",
+    "price": "8000"
+  },
+  {
+    "flightdestination": "Singapore",
+    "time": "10:00 AM",
+    "price": "5000"
+  },
+  {
+    "flightdestination": "Bangkok",
+    "time": "2:00 PM",
+    "price": "8000"
+  }
+]

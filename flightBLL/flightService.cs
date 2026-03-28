@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using flightManagement.Data;
 using flightManagement.DLL;
 
+
 namespace flightManagement.BLL
 {
     public class flightService
+
+
     {
-        private flightRepository r = new flightRepository();
+        private IFlightDataService _dataService;
+
+        public flightService(IFlightDataService dataService)
+        {
+            _dataService = dataService;
+        }
 
         public void SearchFlights(string input)
         {
-            List<Flight> flights = r.GetAllFlights();
+            List<Flight> flights = _dataService.GetFlights();
 
             bool found = false;
             int result = 0;

@@ -1,5 +1,6 @@
 ﻿using System;
 using flightManagement.BLL;
+using flightManagement.UI;
 
 namespace flightManagement.UI
 {
@@ -7,7 +8,10 @@ namespace flightManagement.UI
     {
         static void Main(string[] args)
         {
-            flightService service = new flightService();
+
+            IFlightDataService dataSource = new FlightJsonData(); 
+
+            flightService service = new flightService(dataSource);
 
             Console.WriteLine("---Flight Management System---");
             Console.WriteLine("---Search for Available Flights---");
