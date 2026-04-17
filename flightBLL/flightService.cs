@@ -26,7 +26,8 @@ namespace flightManagement.BLL
 
             for (int i = 0; i < flights.Count; i++)
             {
-                if (input.ToLower() == flights[i].flightdestination.ToLower())
+                if (flights[i].flightdestination
+                    .Equals(input, StringComparison.OrdinalIgnoreCase))
                 {
                     if (!found)
                     {
@@ -53,6 +54,37 @@ namespace flightManagement.BLL
             {
                 Console.WriteLine("Flights found: " + result);
             }
+        }
+
+        public void AddFlight(string flightdestination, string time, string price)
+        {
+            _dataService.AddFlight(new Flight
+            {
+                flightdestination = flightdestination,
+                time = time,
+                price = price
+            });
+
+            Console.WriteLine("Flight added successfully!");
+        }
+
+        public void UpdateFlight(string flightdestination, string time, string price)
+        {
+            _dataService.UpdateFlight(new Flight
+            {
+                flightdestination = flightdestination,
+                time = time,
+                price = price
+            });
+
+            Console.WriteLine("Flight updated successfully!");
+        }
+
+        public void DeleteFlight(string flightdestination)
+        {
+            _dataService.DeleteFlight(flightdestination);
+
+            Console.WriteLine("Flight deleted successfully!");
         }
     }
 }

@@ -6,7 +6,8 @@ namespace flightManagement.UI
 {
     public class FlightDBData : IFlightDataService
     {
-        private string connectionString = "YOUR_CONNECTION_STRING_HERE";
+        private string connectionString =
+        "Data Source=localhost\\SQLEXPRESS01;Initial Catalog=flightDB;Integrated Security=True;TrustServerCertificate=True;";
 
         public List<Flight> GetFlights()
         {
@@ -16,7 +17,7 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "SELECT destination, time, price FROM Flights";
+                string query = "SELECT flightdestination, time, price FROM Flights";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -25,7 +26,7 @@ namespace flightManagement.UI
                 {
                     flights.Add(new Flight
                     {
-                        flightdestination = reader["destination"].ToString(),
+                        flightdestination = reader["flightdestination"].ToString(),
                         time = reader["time"].ToString(),
                         price = reader["price"].ToString()
                     });
@@ -33,6 +34,55 @@ namespace flightManagement.UI
             }
 
             return flights;
+        }
+
+        public void AddFlight(Flight flight)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "INSERT INTO Flights (flightdestination, time, price) VALUES (@dest, @time, @price)";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@dest", flight.flightdestination);
+                cmd.Parameters.AddWithValue("@time", flight.time);
+                cmd.Parameters.AddWithValue("@price", flight.price);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateFlight(Flight flight)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "UPDATE Flights SET time=@time, price=@price WHERE flightdestination=@dest";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@dest", flight.flightdestination);
+                cmd.Parameters.AddWithValue("@time", flight.time);
+                cmd.Parameters.AddWithValue("@price", flight.price);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteFlight(string flightdestination)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "DELETE FROM Flights WHERE flightdestination=@dest";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@dest", flightdestination);
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
