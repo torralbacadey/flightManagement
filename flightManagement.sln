@@ -5,13 +5,15 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "flightManagement", "flightManagement\flightManagement.csproj", "{10D80E10-FB87-41B1-9425-DFB66D18489D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flightUI", "flightUI\flightUI.csproj", "{5AF4AD8C-DD8D-41FB-84CE-A0189FE1DABD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "flightUI", "flightUI\flightUI.csproj", "{5AF4AD8C-DD8D-41FB-84CE-A0189FE1DABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flightBLL", "flightBLL\flightBLL.csproj", "{925450C7-9F0E-455C-89DE-74BDDE2948A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "flightBLL", "flightBLL\flightBLL.csproj", "{925450C7-9F0E-455C-89DE-74BDDE2948A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flightData", "flightData\flightData.csproj", "{FBD9C086-9EEF-4E72-8586-975C3F3E2BBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "flightData", "flightData\flightData.csproj", "{FBD9C086-9EEF-4E72-8586-975C3F3E2BBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flightDLL", "flightDLL\flightDLL.csproj", "{9027AEF5-5C43-444D-B46B-9DAC2FD2DF6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "flightDLL", "flightDLL\flightDLL.csproj", "{9027AEF5-5C43-444D-B46B-9DAC2FD2DF6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flightAPI", "flightAPI\flightAPI.csproj", "{768217B9-EA47-4359-BCB5-941ED985A56D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{9027AEF5-5C43-444D-B46B-9DAC2FD2DF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9027AEF5-5C43-444D-B46B-9DAC2FD2DF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9027AEF5-5C43-444D-B46B-9DAC2FD2DF6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768217B9-EA47-4359-BCB5-941ED985A56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768217B9-EA47-4359-BCB5-941ED985A56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768217B9-EA47-4359-BCB5-941ED985A56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768217B9-EA47-4359-BCB5-941ED985A56D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

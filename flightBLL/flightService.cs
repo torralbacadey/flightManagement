@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
 using flightManagement.Data;
-using flightManagement.DLL;
-
 
 namespace flightManagement.BLL
 {
     public class flightService
-
-
     {
         private IFlightDataService _dataService;
 
@@ -17,43 +13,25 @@ namespace flightManagement.BLL
             _dataService = dataService;
         }
 
-        public void SearchFlights(string input)
+        public List<Flight> GetAllFlights()
+        {
+            return _dataService.GetFlights();
+        }
+
+        public List<Flight> SearchFlights(string destination)
         {
             List<Flight> flights = _dataService.GetFlights();
-
-            bool found = false;
-            int result = 0;
+            List<Flight> result = new List<Flight>();
 
             for (int i = 0; i < flights.Count; i++)
             {
-                if (flights[i].flightdestination
-                    .Equals(input, StringComparison.OrdinalIgnoreCase))
+                if (flights[i].flightdestination.Equals(destination, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (!found)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("--------------------------------------------");
-                        Console.WriteLine("Available flights for " + flights[i].flightdestination + ":");
-                        Console.WriteLine("");
-                    }
-
-                    Console.WriteLine("Destination: " + flights[i].flightdestination);
-                    Console.WriteLine("Time: " + flights[i].time);
-                    Console.WriteLine("Price: " + flights[i].price);
-                    Console.WriteLine("");
-                    found = true;
-                    result++;
+                    result.Add(flights[i]);
                 }
             }
 
-            if (!found)
-            {
-                Console.WriteLine("Sorry, there is no available flight.");
-            }
-            else
-            {
-                Console.WriteLine("Flights found: " + result);
-            }
+            return result;
         }
 
         public void AddFlight(string flightdestination, string time, string price)
@@ -64,8 +42,6 @@ namespace flightManagement.BLL
                 time = time,
                 price = price
             });
-
-            Console.WriteLine("Flight added successfully!");
         }
 
         public void UpdateFlight(string flightdestination, string time, string price)
@@ -76,15 +52,11 @@ namespace flightManagement.BLL
                 time = time,
                 price = price
             });
-
-            Console.WriteLine("Flight updated successfully!");
         }
 
         public void DeleteFlight(string flightdestination)
         {
             _dataService.DeleteFlight(flightdestination);
-
-            Console.WriteLine("Flight deleted successfully!");
         }
     }
 }
