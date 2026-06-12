@@ -7,7 +7,7 @@ namespace flightManagement.UI
     public class FlightDBData : IFlightDataService
     {
         private string connectionString =
-        "Data Source=localhost\\SQLEXPRESS01;Initial Catalog=flightDB;Integrated Security=True;TrustServerCertificate=True;";
+        "Data Source=localhost\\SQLEXPRESS;Initial Catalog=flightDB;Integrated Security=True;TrustServerCertificate=True;";
 
         public List<Flight> GetFlights()
         {
@@ -17,7 +17,7 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "SELECT flightdestination, time, price FROM Flights";
+                string query = "SELECT * FROM fly";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -42,7 +42,7 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "INSERT INTO Flights (flightdestination, time, price) VALUES (@dest, @time, @price)";
+                string query = "INSERT INTO fly (flightdestination, time, price) VALUES (@dest, @time, @price)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@dest", flight.flightdestination);
@@ -59,7 +59,7 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "UPDATE Flights SET time=@time, price=@price WHERE flightdestination=@dest";
+                string query = "UPDATE fly SET time=@time, price=@price WHERE flightdestination=@dest";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@dest", flight.flightdestination);
@@ -76,7 +76,7 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "DELETE FROM Flights WHERE flightdestination=@dest";
+                string query = "DELETE FROM fly WHERE flightdestination=@dest";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@dest", flightdestination);

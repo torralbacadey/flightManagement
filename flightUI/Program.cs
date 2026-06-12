@@ -9,7 +9,7 @@ namespace flightManagement.UI
         static void Main(string[] args)
         {
 
-            IFlightDataService dataSource = new FlightJsonData(); 
+            IFlightDataService dataSource = new FlightDBData(); 
 
             flightService service = new flightService(dataSource);
 
