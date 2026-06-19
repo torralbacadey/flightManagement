@@ -1,4 +1,8 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 using flightManagement.Data;
 using flightManagement.BLL;
 
@@ -10,7 +14,6 @@ namespace flightManagement.UI
 
         public List<Flight> GetFlights()
         {
-
             if (!File.Exists(filePath))
                 return new List<Flight>();
 
@@ -23,6 +26,9 @@ namespace flightManagement.UI
         public void AddFlight(Flight flight)
         {
             var flights = GetFlights();
+
+            flight.Id = flights.Any() ? flights.Max(f => f.Id) + 1 : 1;
+
             flights.Add(flight);
             SaveToFile(flights);
         }
@@ -31,11 +37,11 @@ namespace flightManagement.UI
         {
             var flights = GetFlights();
 
-            var existing = flights.FirstOrDefault(f =>
-                f.flightdestination == updatedFlight.flightdestination);
+            var existing = flights.FirstOrDefault(f => f.Id == updatedFlight.Id);
 
             if (existing != null)
             {
+                existing.flightdestination = updatedFlight.flightdestination;
                 existing.time = updatedFlight.time;
                 existing.price = updatedFlight.price;
             }
@@ -43,11 +49,11 @@ namespace flightManagement.UI
             SaveToFile(flights);
         }
 
-        public void DeleteFlight(string flightdestination)
+        public void DeleteFlight(int id)
         {
             var flights = GetFlights();
 
-            flights.RemoveAll(f => f.flightdestination == flightdestination);
+            flights.RemoveAll(f => f.Id == id);
 
             SaveToFile(flights);
         }

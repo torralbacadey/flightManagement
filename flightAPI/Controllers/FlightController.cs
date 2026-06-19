@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using flightManagement.BLL;
 using flightManagement.Data;
@@ -26,35 +27,71 @@ namespace flightAPI.Controllers
         [HttpGet("search")]
         public IActionResult Search(string destination)
         {
-            List<Flight> flights = _flightService.SearchFlights(destination);
-
-            if (flights.Count == 0)
+            try
             {
-                return NotFound("No flights found for that destination.");
-            }
+                List<Flight> flights = _flightService.SearchFlights(destination);
 
-            return Ok(flights);
+                if (flights.Count == 0)
+                {
+                    return NotFound("No flights found for that destination.");
+                }
+
+                return Ok(flights);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         public IActionResult AddFlight([FromBody] Flight flight)
         {
-            _flightService.AddFlight(flight.flightdestination, flight.time, flight.price);
-            return Ok("Flight added successfully.");
+            try
+            {
+                _flightService.AddFlight(flight.flightdestination, flight.DestinationCode, flight.time, flight.price);
+                return Ok("Flight added successfully.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
         }
 
-        [HttpPut]
-        public IActionResult UpdateFlight([FromBody] Flight flight)
+        [HttpPut("{id}")]
+        public IActionResult UpdateFlight(int id, [FromBody] Flight flight)
         {
-            _flightService.UpdateFlight(flight.flightdestination, flight.time, flight.price);
-            return Ok("Flight updated successfully.");
+            try
+            {
+                _flightService.UpdateFlight(id, flight.flightdestination, flight.DestinationCode, flight.time, flight.price);
+                return Ok("Flight updated successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpDelete("{destination}")]
-        public IActionResult DeleteFlight(string destination)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFlight(int id)
         {
-            _flightService.DeleteFlight(destination);
-            return Ok("Flight deleted successfully.");
+            try
+            {
+                _flightService.DeleteFlight(id);
+                return Ok("Flight deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

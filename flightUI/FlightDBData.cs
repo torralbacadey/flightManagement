@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using flightManagement.Data;
 using flightManagement.BLL;
 
@@ -17,7 +19,7 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "SELECT * FROM fly";
+                string query = "SELECT Id, flightdestination, OriginCode, DestinationCode, time, price FROM fly";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -26,9 +28,12 @@ namespace flightManagement.UI
                 {
                     flights.Add(new Flight
                     {
+                        Id = (int)reader["Id"],
                         flightdestination = reader["flightdestination"].ToString(),
-                        time = reader["time"].ToString(),
-                        price = reader["price"].ToString()
+                        OriginCode = reader["OriginCode"].ToString(),
+                        DestinationCode = reader["DestinationCode"].ToString(),
+                        time = TimeOnly.FromTimeSpan((TimeSpan)reader["time"]),
+                        price = (decimal)reader["price"]
                     });
                 }
             }
@@ -42,11 +47,13 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "INSERT INTO fly (flightdestination, time, price) VALUES (@dest, @time, @price)";
+                string query = "INSERT INTO fly (flightdestination, OriginCode, DestinationCode, time, price) VALUES (@dest, @origin, @destCode, @time, @price)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@dest", flight.flightdestination);
-                cmd.Parameters.AddWithValue("@time", flight.time);
+                cmd.Parameters.AddWithValue("@origin", flight.OriginCode);
+                cmd.Parameters.AddWithValue("@destCode", flight.DestinationCode);
+                cmd.Parameters.AddWithValue("@time", flight.time.ToTimeSpan());
                 cmd.Parameters.AddWithValue("@price", flight.price);
 
                 cmd.ExecuteNonQuery();
@@ -59,27 +66,30 @@ namespace flightManagement.UI
             {
                 conn.Open();
 
-                string query = "UPDATE fly SET time=@time, price=@price WHERE flightdestination=@dest";
+                string query = "UPDATE fly SET flightdestination=@dest, OriginCode=@origin, DestinationCode=@destCode, time=@time, price=@price WHERE Id=@id";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", flight.Id);
                 cmd.Parameters.AddWithValue("@dest", flight.flightdestination);
-                cmd.Parameters.AddWithValue("@time", flight.time);
+                cmd.Parameters.AddWithValue("@origin", flight.OriginCode);
+                cmd.Parameters.AddWithValue("@destCode", flight.DestinationCode);
+                cmd.Parameters.AddWithValue("@time", flight.time.ToTimeSpan());
                 cmd.Parameters.AddWithValue("@price", flight.price);
 
                 cmd.ExecuteNonQuery();
             }
         }
 
-        public void DeleteFlight(string flightdestination)
+        public void DeleteFlight(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                string query = "DELETE FROM fly WHERE flightdestination=@dest";
+                string query = "DELETE FROM fly WHERE Id=@id";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@dest", flightdestination);
+                cmd.Parameters.AddWithValue("@id", id);
 
                 cmd.ExecuteNonQuery();
             }

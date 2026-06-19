@@ -9,6 +9,6 @@ namespace flightManagement.BLL
 
         void UpdateFlight(Flight flight);
 
-        void DeleteFlight(string flightdestination);
+        void DeleteFlight(int id);
     }
 }

@@ -8,8 +8,7 @@ namespace flightManagement.UI
     {
         static void Main(string[] args)
         {
-
-            IFlightDataService dataSource = new FlightDBData(); 
+            IFlightDataService dataSource = new FlightDBData();
 
             flightService service = new flightService(dataSource);
 
@@ -29,54 +28,81 @@ namespace flightManagement.UI
                 Console.Write("Choose: ");
                 string choice = Console.ReadLine();
 
-                if (choice == "1")
+                try
                 {
-                    Console.Write("Enter Destination: ");
-                    string input = Console.ReadLine().ToLower();
+                    if (choice == "1")
+                    {
+                        Console.Write("Enter Destination: ");
+                        string input = Console.ReadLine();
 
-                    service.SearchFlights(input);
+                        var results = service.SearchFlights(input);
+
+                        if (results.Count == 0)
+                        {
+                            Console.WriteLine("No flights found.");
+                        }
+                        else
+                        {
+                            foreach (var f in results)
+                            {
+                                Console.WriteLine($"[{f.Id}] {f.OriginCode} -> {f.DestinationCode} ({f.flightdestination}) - {f.time:HH:mm} - \u20b1{f.price:N2}");
+                            }
+                        }
+                    }
+                    else if (choice == "2")
+                    {
+                        Console.Write("Destination: ");
+                        string flightdestination = Console.ReadLine();
+
+                        Console.Write("Destination Airport Code (e.g. NRT): ");
+                        string destinationCode = Console.ReadLine();
+
+                        Console.Write("Time (24hr, e.g. 14:00): ");
+                        TimeOnly time = TimeOnly.Parse(Console.ReadLine());
+
+                        Console.Write("Price: ");
+                        decimal price = decimal.Parse(Console.ReadLine());
+
+                        service.AddFlight(flightdestination, destinationCode, time, price);
+                        Console.WriteLine("Flight added.");
+                    }
+                    else if (choice == "3")
+                    {
+                        Console.Write("Id of flight to update: ");
+                        int id = int.Parse(Console.ReadLine());
+
+                        Console.Write("New Destination: ");
+                        string flightdestination = Console.ReadLine();
+
+                        Console.Write("New Destination Airport Code (e.g. NRT): ");
+                        string destinationCode = Console.ReadLine();
+
+                        Console.Write("New Time (24hr, e.g. 14:00): ");
+                        TimeOnly time = TimeOnly.Parse(Console.ReadLine());
+
+                        Console.Write("New Price: ");
+                        decimal price = decimal.Parse(Console.ReadLine());
+
+                        service.UpdateFlight(id, flightdestination, destinationCode, time, price);
+                        Console.WriteLine("Flight updated.");
+                    }
+                    else if (choice == "4")
+                    {
+                        Console.Write("Id of flight to delete: ");
+                        int id = int.Parse(Console.ReadLine());
+
+                        service.DeleteFlight(id);
+                        Console.WriteLine("Flight deleted.");
+                    }
+                    else if (choice == "5")
+                    {
+                        Console.WriteLine("Thank you for using our system.");
+                        break;
+                    }
                 }
-
-                else if (choice == "2")
+                catch (Exception ex)
                 {
-                    Console.Write("Destination: ");
-                    string flightdestination = Console.ReadLine();
-
-                    Console.Write("Time: ");
-                    string time = Console.ReadLine();
-
-                    Console.Write("Price: ");
-                    string price = Console.ReadLine();
-
-                    service.AddFlight(flightdestination, time, price);
-                }
-
-                else if (choice == "3")
-                {
-                    Console.Write("Destination to update: ");
-                    string flightdestination = Console.ReadLine();
-
-                    Console.Write("New Time: ");
-                    string time = Console.ReadLine();
-
-                    Console.Write("New Price: ");
-                    string price = Console.ReadLine();
-
-                    service.UpdateFlight(flightdestination, time, price);
-                }
-
-                else if (choice == "4")
-                {
-                    Console.Write("Destination to delete: ");
-                    string flightdestination = Console.ReadLine();
-
-                    service.DeleteFlight(flightdestination);
-                }
-
-                else if (choice == "5")
-                {
-                    Console.WriteLine("Thank you for using our system.");
-                    break;
+                    Console.WriteLine($"Error: {ex.Message}");
                 }
             }
         }
